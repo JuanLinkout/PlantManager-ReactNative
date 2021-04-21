@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native';
 import colors from '../style/colors';
+import fonts from '../style/fonts';
 
 interface Button extends TouchableOpacityProps {
   title: string,
@@ -8,26 +9,25 @@ interface Button extends TouchableOpacityProps {
 
 export function Button({ title, ...rest }: Button) {
   return (
-    <TouchableOpacity style={styles.button} {...rest} activeOpacity={0.5}>
-        <Text style={styles.buttonText}>
-          { title }
-        </Text>
-      </TouchableOpacity>
+    <TouchableOpacity style={styles.container} {...rest}>
+      <Text style={styles.text}>
+        { title }
+      </Text>
+    </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
-    color: colors.white,
-    fontSize: 24
-  },
-  button: {
+  container: {
     backgroundColor: colors.green,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 16,
-    marginBottom: 10,
     height: 56,
-    width: 56 
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  text: {
+    color: colors.white,
+    fontSize: 16,
+    fontFamily: fonts.heading
   }
 });

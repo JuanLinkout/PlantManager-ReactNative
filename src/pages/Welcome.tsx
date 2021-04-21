@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, Text, Image } from 'react-native';
-
-import { Button } from '../components/Button';
+import { StyleSheet, Text, Image, View, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import { Feather } from '@expo/vector-icons'
 
 import wateringImg from '../assets/watering.png';
 import colors from '../style/colors';
 import GlobalStyle from '../style/GlobalStyle';
+import fonts from '../style/fonts';
+
+import { useNavigation } from '@react-navigation/core';
 
 export function Welcome() {
-  const [visible, setVisible] = useState(false);
-
-  function handleVisibility() {
-    setVisible(!visible);
+  const navigation = useNavigation();
+  function handleStart() {
+    navigation.navigate('UserIdentification');
   }
 
   return (
@@ -21,10 +22,8 @@ export function Welcome() {
         suas plantas de{'\n'} 
         forma fácil
       </Text>
-      {
-        visible &&
-        <Image source={wateringImg} />
-      }
+
+      <Image source={wateringImg} style={styles.image} resizeMode="contain" />
 
       <Text style={styles.subtitle}>
         Não esqueça mais de regar suas 
@@ -32,7 +31,9 @@ export function Welcome() {
         sempre que precisar.
       </Text>
 
-      <Button title=">" />
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleStart}>
+        <Feather name="chevron-right" style={styles.buttonIcon} />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -42,23 +43,38 @@ const styles = StyleSheet.create({
     ...GlobalStyle.droidSafeArea,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
     color: colors.heading,
-    marginTop: 38
+    marginTop: 38,
+    fontFamily: fonts.heading
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     color: colors.heading,
-    paddingHorizontal: 20,
+    paddingHorizontal: 18,
+    fontFamily: fonts.text
   },
   image: {
-    width: 292,
-    height: 284
+    height: Dimensions.get("window").width * 0.7,
+  },
+  buttonIcon: {
+    color: colors.white,
+    fontSize: 28
+  },
+  button: {
+    backgroundColor: colors.green,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+    marginBottom: 10,
+    height: 56,
+    width: 56 
   }
 });
