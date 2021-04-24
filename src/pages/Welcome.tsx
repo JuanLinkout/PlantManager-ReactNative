@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, Image, View, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, Image, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+
 import { Feather } from '@expo/vector-icons'
 
 import wateringImg from '../assets/watering.png';

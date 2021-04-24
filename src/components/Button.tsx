@@ -9,7 +9,7 @@ interface Button extends TouchableOpacityProps {
 
 export function Button({ title, ...rest }: Button) {
   return (
-    <TouchableOpacity style={styles.container} {...rest}>
+    <TouchableOpacity style={[styles.container, rest.disabled && { opacity: 0.5 }]} {...rest}>
       <Text style={styles.text}>
         { title }
       </Text>

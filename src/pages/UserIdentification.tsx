@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+
 import { Button } from '../components/Button';
+
 import colors from '../style/colors';
 import fonts from '../style/fonts';
 import GlobalStyle from '../style/GlobalStyle';
+
 import { useNavigation } from '@react-navigation/core';
 
 export function UserIdentification() {
@@ -37,7 +40,7 @@ export function UserIdentification() {
         <View style={styles.content}>
           <View style={styles.form}>
             <Text style={styles.emoji} >
-              😄
+              { isFilled ? '😄' : ' 🤔' }
             </Text>
 
             <Text style={styles.title}>
@@ -54,7 +57,7 @@ export function UserIdentification() {
             />
 
             <View style={styles.footer}>
-              <Button onPress={handleNavigation} title="Confirmar" />
+              <Button disabled={!isFilled} onPress={handleNavigation} title="Confirmar" />
             </View>
           </View>
 
