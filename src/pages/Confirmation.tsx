@@ -7,14 +7,24 @@ import colors from '../style/colors';
 import fonts from '../style/fonts';
 import GlobalStyle from '../style/GlobalStyle';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+interface ConfirmationParams {
+  emoji: string;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  nextScreen: string;
+}
 
 export function Confirmation() {
 
+  const route = useRoute();
+  const confirmationParams = route.params as ConfirmationParams;
   const navigation = useNavigation();
 
   function handleMoveOn() {
-    navigation.navigate('PlantSelect');
+    navigation.navigate(confirmationParams.nextScreen);
   }
 
   return (
@@ -22,20 +32,19 @@ export function Confirmation() {
         <View style={styles.content}>
 
             <Text style={styles.emoji} >
-              😄
+              {confirmationParams.emoji}
             </Text>
 
             <Text style={styles.title}>
-              Prontinho
+              {confirmationParams.title}
             </Text>
 
             <Text style={styles.subtitle}>
-              Agora vamos começar a cuidar das suas
-              platinhas com muito cuidado.
+              {confirmationParams.subtitle}
             </Text>
 
             <View style={styles.footer}>
-              <Button onPress={handleMoveOn} title="Começar" />
+              <Button onPress={handleMoveOn} title={confirmationParams.buttonText} />
             </View>
 
         </View>

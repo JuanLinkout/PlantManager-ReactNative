@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../style/colors';
 import fonts from '../style/fonts';
@@ -7,15 +8,20 @@ import GlobalStyle from '../style/GlobalStyle';
 
 import userImg from '../assets/juan.png';
 
-export function Header() {
-  
-  
+interface HeaderProps {
+  title: string,
+  subtitle: string
+}
+
+export function Header({ title, subtitle }: HeaderProps) {
+
+
   return (
     <View style={styles.container}>
 
       <View>
-        <Text style={styles.subtitle}>Olá,</Text>
-        <Text style={styles.title}>Juan</Text>
+        <Text style={styles.title}>{ title }</Text>
+        <Text style={styles.subtitle}>{ subtitle }</Text>
       </View>
       
       <Image style={styles.image} source={userImg} />
@@ -32,14 +38,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
   },
-  title: {
+  subtitle: {
     fontFamily: fonts.heading,
     fontSize: 32,
     color: colors.heading,
     fontWeight: 'bold',
     lineHeight: 40
   },
-  subtitle: {
+  title: {
     fontFamily: fonts.complement,
     fontSize: 32,
     color: colors.heading

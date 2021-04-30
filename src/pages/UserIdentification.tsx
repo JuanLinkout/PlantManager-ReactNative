@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Button } from '../components/Button';
 
@@ -8,6 +8,7 @@ import fonts from '../style/fonts';
 import GlobalStyle from '../style/GlobalStyle';
 
 import { useNavigation } from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function UserIdentification() {
   const navigation = useNavigation();
@@ -16,8 +17,19 @@ export function UserIdentification() {
   const [isFilled, setIsFilled] = useState(false);
   const [name, setName] = useState<string>();
 
-  function handleNavigation() {
-    navigation.navigate('Confirmation');
+  async function handleNavigation() {
+    try {
+      await AsyncStorage.setItem('@plantmanager:userName', name || '');
+      navigation.navigate('Confirmation', {
+        title: "Prontinho",
+        subtitle: " Agora vamos começar a cuidar das suas plantinhas com muito cuidado.",
+        buttonText: "Começar",
+        nextScreen: "PlantSelect",
+        emoji: "😄"
+      });
+    } catch (e) {
+      Alert.alert(e);
+    }
   }
 
   function handleInputBlur() {

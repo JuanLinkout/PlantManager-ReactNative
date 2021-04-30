@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/core';
 
 export function Welcome() {
   const navigation = useNavigation();
+  
   function handleStart() {
     navigation.navigate('UserIdentification');
   }
@@ -32,7 +33,7 @@ export function Welcome() {
         sempre que precisar.
       </Text>
 
-        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleStart}>
+      <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleStart}>
         <Feather name="chevron-right" style={styles.buttonIcon} />
       </TouchableOpacity>
     </SafeAreaView>
