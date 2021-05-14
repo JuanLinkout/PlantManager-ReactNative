@@ -50,23 +50,26 @@ export function UserIdentification() {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={styles.container}  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.content}>
+
           <View style={styles.form}>
-            <Text style={styles.emoji} >
-              { isFilled ? '😄' : ' 🤔' }
-            </Text>
+            <View style={styles.textArea}>
+              <Text style={styles.emoji} >
+                { isFilled ? '😄' : ' 🤔' }
+              </Text>
 
-            <Text style={styles.title}>
-              Como podemos {'\n'}
-              chamar você?
-            </Text>
+              <Text style={styles.title}>
+                Como podemos {'\n'}
+                chamar você?
+              </Text>
 
-            <TextInput 
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              style={[styles.input, (isFocused || isFilled) && { borderColor: colors.green }]}
-              placeholder="Digite seu nome"
-              onChangeText={handleInputChange}
-            />
+              <TextInput 
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                style={[styles.input, (isFocused || isFilled) && { borderColor: colors.green }]}
+                placeholder="Digite seu nome"
+                onChangeText={handleInputChange}
+              />
+            </View>
 
             <View style={styles.footer}>
               <Button disabled={!isFilled} onPress={handleNavigation} title="Confirmar" />
@@ -96,6 +99,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 54
+  },
+  textArea: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   emoji: {
     fontSize: 44

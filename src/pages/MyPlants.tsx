@@ -8,7 +8,7 @@ import { Header } from '../components/Header';
 import { Load } from '../components/Load';
 import { PlantCardSecondary } from '../components/PlantCardSecondary';
 import { WaterTip } from '../components/WaterTip';
-import { getPlants, PlantProps } from '../libs/storage';
+import { deletePlant, getPlants, PlantProps } from '../libs/storage';
 import colors from '../style/colors';
 import fonts from '../style/fonts';
 import GlobalStyle from '../style/GlobalStyle';
@@ -33,16 +33,38 @@ export function MyPlants() {
     }
   }
 
+  async function handleDelete(plant: PlantProps) {
+    Alert.alert('Remove', `Deseja remover ${plant.name}?`,[
+      {
+        text: 'Não',
+        style: 'cancel'
+      },
+      {
+        text: 'Sim',
+        onPress: async () => {
+          try {
+            await deletePlant(plant);
+            setMyPlants(oldPlants => {
+              return oldPlants.filter(oldPlant => oldPlant.id !== plant.id);
+            });
+          } catch (e) {
+            Alert.alert(e);
+          }
+        }
+      }
+    ])
+  }
+
   useEffect(() => {
     loadPlants();
-  },[])
+  },[]);
 
   if (loading)
     return <Load />
 
   return (
     <View style={styles.container}>
-      <Header title="Minhas" subtitle="Platinhas" />
+      <Header title="Minhas" subtitle="Plantinhas" />
       <View style={styles.waterTip}>
         <WaterTip tipDescription={nextWaterTime} />
       </View>
@@ -56,7 +78,7 @@ export function MyPlants() {
           showsVerticalScrollIndicator={false}
           numColumns={1}
           renderItem={({item}) => (
-            <PlantCardSecondary data={item}/>
+            <PlantCardSecondary handleRemove={() => {handleDelete(item)}} data={item}/>
           )}
         />
       </View>
@@ -69,6 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 32,
     ...GlobalStyle.droidSafeArea,
+    backgroundColor: colors.background
   },
   waterTip: {
     marginTop: 20

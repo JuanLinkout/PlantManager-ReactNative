@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, Platform, Alert } from 'react-native'
+import { StyleSheet, View, Text, Platform, Alert, ScrollView } from 'react-native'
 import { SvgFromUri } from 'react-native-svg';
 import { Button } from '../components/Button';
 import { PlantProps, savePlant } from '../libs/storage';
@@ -60,63 +60,68 @@ export function PlantSave() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView 
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
+      <View style={styles.container}>
 
-      <View style={styles.plantInfo}>
+        <View style={styles.plantInfo}>
 
-        <SvgFromUri
-          uri={plant.photo}
-          style={styles.svgImage}
-        />
+          <SvgFromUri
+            uri={plant.photo}
+            style={styles.svgImage}
+          />
 
-        <Text style={styles.plantName}>
-          {plant.name}
-        </Text>
+          <Text style={styles.plantName}>
+            {plant.name}
+          </Text>
 
-        <Text style={styles.plantAbout}>
-          {plant.about}
-        </Text>
+          <Text style={styles.plantAbout}>
+            {plant.about}
+          </Text>
 
-      </View>
-
-      <View style={styles.controller}>
-        <View style={styles.waterTip}>
-          <WaterTip tipDescription={plant.water_tips} />
         </View>
 
+        <View style={styles.controller}>
+          <View style={styles.waterTip}>
+            <WaterTip tipDescription={plant.water_tips} />
+          </View>
 
-        <Text style={styles.alertLabel}>
-          Escolha o melhor horário para ser lembrado:
-        </Text>
 
-        {
-          showDatePicker &&
-          <DateTimePicker
-            value={selectedDateTime}
-            mode="time"
-            display="spinner"
-            onChange={handleChangeTime}
+          <Text style={styles.alertLabel}>
+            Escolha o melhor horário para ser lembrado:
+          </Text>
+
+          {
+            showDatePicker &&
+            <DateTimePicker
+              value={selectedDateTime}
+              mode="time"
+              display="spinner"
+              onChange={handleChangeTime}
+            />
+          }
+
+          {
+            Platform.OS == 'android' 
+            ?  (<TouchableOpacity style={styles.dateTimePickerButton} onPress={handleOpenDateTimePickerAndroid}>
+                  <Text style={styles.dateTimePicker}>
+                    {`Mudar ${format(selectedDateTime, 'HH:mm')}`}
+                  </Text>
+                </TouchableOpacity>)
+            : <></>
+          }
+
+          <Button
+            title="Cadastrar planta"
+            onPress={() => handleSavePlant()}
           />
-        }
 
-        {
-          Platform.OS == 'android' 
-          ?  (<TouchableOpacity style={styles.dateTimePickerButton} onPress={handleOpenDateTimePickerAndroid}>
-                <Text style={styles.dateTimePicker}>
-                  {`Mudar ${format(selectedDateTime, 'HH:mm')}`}
-                </Text>
-              </TouchableOpacity>)
-          : <></>
-        }
-
-        <Button
-          title="Cadastrar planta"
-          onPress={() => handleSavePlant()}
-        />
-
+        </View>
+        
       </View>
-      
-    </View>
+    </ScrollView>
   )
 }
 
@@ -124,7 +129,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-    ...GlobalStyle.droidSafeArea
+    ...GlobalStyle.droidSafeArea,
+    backgroundColor: colors.shape,
   },
   plantInfo: {
     flex: 1,
@@ -138,7 +144,7 @@ const styles = StyleSheet.create({
   },
   controller: {
     paddingHorizontal: 32,
-    paddingBottom: 20, // getBottomSpace() Iphone-x-Helper
+    paddingBottom: Platform.OS === 'ios' ? 30 : 20, // getBottomSpace() Iphone-x-Helper
     backgroundColor: colors.white
   },
   plantName: {
